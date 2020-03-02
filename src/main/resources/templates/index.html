@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main-layout :: main-fragment(
+                                                ~{::title},
+                                                ~{:: #styleRessource},
+                                                ~{:: #content},
+                                                ~{:: #javascriptResources})}">
+<head>
+    <title>Picoulet Axel - Accueil</title>
+    <th:block id="styleRessource">
+    </th:block>
+</head>
+<body>
+
+<section id="content">
+    Page d'accueil! Welcome!
+</section>
+
+<th:block id="javascriptResources">
+</th:block>
+</body>
+</html>

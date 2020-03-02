@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html lang="fr"
+      xmlns:th="http://www.thymeleaf.org"
+      th:fragment="main-fragment (title, styleResources, mainContent, javascriptResources)">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title th:replace="${title}">Picoulet Axel - Jakerta EE</title>
+
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/all.min.css}"/>
+    <th:block th:replace="${styleResources} ?: ~{}"></th:block>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">HelloWorld</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/}">Accueil</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/utilisateurs}">Utilisateurs</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/roles}">Roles</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<main th:insert="${mainContent} ?: ~{}">
+    <h1>Contenu principal de la page</h1>
+</main>
+
+<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
+<th:block th:replace="${javascriptResources} ?: ~{}"></th:block>
+</body>
+</html>

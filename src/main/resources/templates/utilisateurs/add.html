@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main-layout :: main-fragment(
+                                                ~{::title},
+                                                ~{:: #styleRessource},
+                                                ~{:: #content},
+                                                ~{:: #javascriptResources})}">
+<head>
+    <title>Picoulet Axel - Création d'utilisateur</title>
+    <th:block id="styleRessource">
+    </th:block>
+</head>
+<body>
+
+<section id="content">
+    <div class="container mt-4 mb-4">
+        <form th:action="@{/utilisateurs/ajouter}"
+              th:object="${utilisateur}"
+              th:method="post"
+              th:class="card">
+            <h2 class="card-header bg-dark text-white mb-0">Création d'un utilisateur</h2>
+            <div class="card-body">
+                <div class="form-group">
+                    <label th:for="utilisateurNom">Nom</label>
+                    <input th:id="utilisateurNom" th:field="*{utilisateurNom}" th:class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label th:for="utilisateurPrenom">Prénom</label>
+                    <input th:id="utilisateurPrenom" th:field="*{utilisateurPrenom}" th:class="form-control">
+                </div>
+                <div class="form-group">
+                    <label th:for="role">Role</label>
+                    <select th:field="*{role}"
+                            th:id="role"
+                            th:class="form-control">
+                        <option th:each="role: ${roles}"
+                                th:value="${role.roleNom}"
+                                th:text="${#strings.capitalize(role.roleNom)}"/>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">
+                        Ajouter
+                    </button>
+                    <a th:href="@{/utilisateurs}" class="btn btn-danger">Annuler</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<th:block id="javascriptResources">
+</th:block>
+</body>
+</html>

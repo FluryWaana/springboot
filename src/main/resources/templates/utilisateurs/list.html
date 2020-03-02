@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main-layout :: main-fragment(
+                                                ~{::title},
+                                                ~{:: #styleRessource},
+                                                ~{:: #content},
+                                                ~{:: #javascriptResources})}">
+<head>
+    <title>Picoulet Axel - Liste des utilisateurs</title>
+    <th:block id="styleRessource">
+    </th:block>
+</head>
+<body>
+
+<section id="content">
+    <div class="container mt-4 mb-4">
+        <div class="card">
+            <div class="card-header bg-dark text-white mb-0">
+                <div class="row">
+                    <div class="col my-auto">
+                        <h2>Liste des utilisateurs</h2>
+                    </div>
+                    <div class="col-1 my-auto text-center">
+                        <a class="nav-link" th:href="@{/utilisateurs/ajouter}">
+                            <i class="far fa-plus-square fa-2x"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body m-0 p-0">
+                <table class="table table-dark m-0">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Prénom</th>
+                        <th scope="col">Role</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="utilisateur : ${utilisateurs}">
+                        <tr>
+                            <td th:text="${utilisateur.utilisateurId}"></td>
+                            <td th:text="${#strings.toUpperCase(utilisateur.utilisateurNom)}"></td>
+                            <td th:text="${#strings.capitalize(utilisateur.utilisateurPrenom)}"></td>
+                            <td th:text="${#strings.capitalize(utilisateur.role.roleNom)}"></td>
+                            <td class="text-right">
+                                <a th:href="@{/utilisateurs/{id}(id = ${utilisateur.utilisateurId})}"
+                                   th:class="text-decoration-none">
+                                    <i class="far fa-eye"></i>
+                                </a>
+                                <a th:href="@{/utilisateurs/supprimer/{id}(id = ${utilisateur.utilisateurId})}"
+                                   th:class="text-decoration-none">
+                                    <i class="far fa-trash-alt"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<th:block id="javascriptResources">
+</th:block>
+</body>
+</html>
