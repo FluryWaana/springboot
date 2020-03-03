@@ -35,7 +35,7 @@
                             th:id="role"
                             th:class="form-control">
                         <option th:each="role: ${roles}"
-                                th:value="${role.roleNom}"
+                                th:value="${role.roleId}"
                                 th:text="${#strings.capitalize(role.roleNom)}"/>
                     </select>
                 </div>
@@ -44,6 +44,29 @@
                         Modifier
                     </button>
                     <a th:href="@{/utilisateurs}" class="btn btn-danger">Annuler</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 class="card-header">Liste des commandes de l'utilisateur</h2>
+                <div class="card-body">
+                    <table class="table table-dark m-0">
+                        <thead>
+                        <tr>
+                            <th scope="col">#Référence</th>
+                            <th scope="col">Prix</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <th:block th:each="commande : ${utilisateur.getCommandes()}">
+                            <tr>
+                                <td th:text="${commande.commandeReference}"></td>
+                                <td th:text="${commande.getPrixTotal() + '€'}"></td>
+                            </tr>
+                        </th:block>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </form>

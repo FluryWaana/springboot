@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main-layout :: main-fragment(
+                                                ~{::title},
+                                                ~{:: #styleRessource},
+                                                ~{:: #content},
+                                                ~{:: #javascriptResources})}">
+<head>
+    <title>Picoulet Axel - Modification d'un role</title>
+    <th:block id="styleRessource">
+    </th:block>
+</head>
+<body>
+
+<section id="content">
+    <div class="container mt-4 mb-4">
+        <form th:action="@{/roles/{id}(id = ${role.roleId})}"
+              th:object="${role}"
+              th:method="post"
+              th:class="card">
+            <h2 class="card-header bg-dark text-white mb-0">Modification d'un role</h2>
+            <div class="card-body">
+                <input type="hidden" th:field="*{roleId}">
+                <div class="form-group">
+                    <label th:for="roleNom">Nom</label>
+                    <input th:id="roleNom"
+                           th:field="*{roleNom}"
+                           th:classappend="${#fields.hasErrors('roleNom')} ? 'is-invalid' : ''"
+                           class="form-control"
+                           autocomplete="false"/>
+                    <div th:if="${#fields.hasErrors('roleNom')}"
+                         th:errors="*{roleNom}" class="invalid-feedback"></div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">
+                        Modifier
+                    </button>
+                    <a th:href="@{/roles}" class="btn btn-danger">Annuler</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<th:block id="javascriptResources">
+</th:block>
+</body>
+</html>

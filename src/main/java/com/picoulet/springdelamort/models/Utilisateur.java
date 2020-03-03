@@ -1,6 +1,7 @@
 package com.picoulet.springdelamort.models;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.*;
@@ -42,6 +43,9 @@ public class Utilisateur {
     @ManyToOne
     @JoinColumn(name = "role_nom")
     private Role role;
+
+    @OneToMany(mappedBy = "utilisateur", cascade=CascadeType.REMOVE)
+    private List<Commande> commandes;
 
     // ------------------------------------------------------------------------
 
@@ -173,6 +177,14 @@ public class Utilisateur {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public List<Commande> getCommandes() {
+        return commandes;
+    }
+
+    public void setCommandes(List<Commande> commandes) {
+        this.commandes = commandes;
     }
 
     // ------------------------------------------------------------------------

@@ -1,10 +1,8 @@
 package com.picoulet.springdelamort;
 
 import com.github.javafaker.Faker;
-import com.picoulet.springdelamort.models.Role;
-import com.picoulet.springdelamort.models.Utilisateur;
-import com.picoulet.springdelamort.repositories.RoleRepository;
-import com.picoulet.springdelamort.repositories.UtilisateurRepository;
+import com.picoulet.springdelamort.models.*;
+import com.picoulet.springdelamort.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,25 +21,58 @@ public class SpringdelamortApplication {
     }
 
     @Bean
-    public CommandLineRunner demo(RoleRepository roleRepository, UtilisateurRepository utilisateurRepository) {
+    public CommandLineRunner demo(RoleRepository roleRepository,
+                                  UtilisateurRepository utilisateurRepository,
+                                  ArticleRepository articleRepository,
+                                  CommandeRepository commandeRepository,
+                                  LigneCommandeRepository ligneCommandeRepository
+    ) {
         Faker faker = new Faker(new Locale("fr-FR"));
 
         return (args) -> {
-            List<Role> roles = new ArrayList<>(Arrays.asList(
-                                    new Role("administrateur"),
-                                    new Role("utilisateur"))
-                                );
-            roleRepository.saveAll(roles);
+            /**
+             * Création des utilisateurs
+             */
+            Role role = roleRepository.save(new Role("utilisateur"));
+            for (int i = 0; i < 20; i++) {
 
-            for(int i = 0; i < 20; i++)
-            {
-                utilisateurRepository.save(new Utilisateur(
+                Utilisateur utilisateur = utilisateurRepository.save(new Utilisateur(
                         faker.gameOfThrones().city(),
                         faker.pokemon().name(),
-                        new Role("utilisateur")
+                        role
                 ));
-            }
 
+                /**
+                 * Création des commandes pour un utilisateur
+                 */
+                for (int a = 0; a < 6; a++) {
+                    Commande commande = commandeRepository.save(new Commande(utilisateur));
+                    createArticleByCommande(faker, commande, articleRepository, ligneCommandeRepository);
+                }
+            }
         };
+    }
+
+    /**
+     * Créer une liste d'article
+     * @param faker
+     * @param commande
+     * @return
+     */
+    private void createArticleByCommande(Faker faker, Commande commande,
+                                                  ArticleRepository articleRepository,
+                                                  LigneCommandeRepository ligneCommandeRepository
+    ) {
+        for (int i = 0; i < 15; i++) {
+            Article article = articleRepository.save( new Article(faker.commerce().productName(),
+                    faker.lorem().paragraph(300),
+                    new Double(faker.number().numberBetween(20, 369))
+            ));
+
+            ligneCommandeRepository.save(new LigneCommande(
+                    new LigneCommandeCK(commande.getCommandeReference(), article.getArticleReference()),
+                    faker.number().numberBetween(2, 6)));
+        }
+
     }
 }

@@ -6,7 +6,7 @@
                                                 ~{:: #content},
                                                 ~{:: #javascriptResources})}">
 <head>
-    <title>Picoulet Axel - Liste des roles</title>
+    <title>Picoulet Axel - Liste des articles</title>
     <th:block id="styleRessource">
     </th:block>
 </head>
@@ -18,39 +18,39 @@
             <div class="card-header bg-dark text-white mb-0">
                 <div class="row">
                     <div class="col my-auto">
-                        <h2>Liste des roles</h2>
+                        <h2>Liste des articles</h2>
                     </div>
                     <div class="col-1 my-auto text-center">
-                        <a class="nav-link" th:href="@{/roles/ajouter}">
+                        <a class="nav-link" th:href="@{/articles/ajouter}">
                             <i class="far fa-plus-square fa-2x"></i>
                         </a>
                     </div>
                 </div>
             </div>
             <div class="card-body m-0 p-0">
-                <div th:if="${error != null}" class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-                    <p th:text="${error}" class="my-auto ml-2 mr-2"></p>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
                 <table class="table table-dark m-0">
                     <thead>
                     <tr>
+                        <th scope="col">#Référence</th>
                         <th scope="col">Nom</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Prix</th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <th:block th:each="role : ${roles}">
+                    <th:block th:each="article : ${articles}">
                         <tr>
-                            <td th:text="${#strings.capitalize(role.roleNom)}"></td>
+                            <td th:text="${article.articleReference}"></td>
+                            <td th:text="${#strings.capitalize(article.articleNom)}"></td>
+                            <td th:text="${#strings.abbreviate(article.articleDescription, 80)}"></td>
+                            <td th:text="${#numbers.formatDecimal(article.articlePrix, 1, 'DEFAULT', 2, 'DEFAULT') + '€'}"></td>
                             <td class="text-right">
-                                <a th:href="@{/roles/{id}(id = ${role.roleId})}"
+                                <a th:href="@{/articles/{id}(id = ${article.articleReference})}"
                                    th:class="text-decoration-none">
                                     <i class="far fa-eye"></i>
                                 </a>
-                                <a th:href="@{/roles/supprimer/{id}(id = ${role.roleId})}"
+                                <a th:href="@{/articles/supprimer/{id}(id = ${article.articleReference})}"
                                    th:class="text-decoration-none">
                                     <i class="far fa-trash-alt"></i>
                                 </a>
